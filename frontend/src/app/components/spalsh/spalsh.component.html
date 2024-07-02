@@ -1,0 +1,19 @@
+<div style="text-align: center; overflow-y: auto; height: 812px; background-color: #4C0641;">
+<!-- se l'utente non è loggato -->
+<div *ngIf="!user">
+    <h1 style="margin-bottom: 10px; margin-top: 100px; color: white; font-size: 30px;">DonaTo</h1>
+    <h4 style="color: white; margin-bottom: 100px;">Dai nuova vita all'usato</h4>
+
+    <!-- Aggiungi l'immagine qui -->
+    <img src="../../../assets/Logo_DonaTo.svg" alt="Descrizione dell'immagine" style="width: 200px; height: auto; margin-bottom: 80px;">
+
+    <!-- Contenitore per il login e la registrazione -->
+    <div style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <button mat-raised-button color="custom" style="background-color: white; width: 350px; margin-top: 110px; font-size: 18px;" [routerLink]="['/signup']">Registrati ora</button>
+        <h4 style="color: white; margin-top: 20px;">Oppure</h4>
+        <button mat-stroked-button color="custom" style="background-color: #CF2BBE; color: white; width: 350px; font-size: 18px;" [routerLink]="['/login']">Accedi</button>
+    </div>
+    
+</div>
+
+<app-root></app-root>

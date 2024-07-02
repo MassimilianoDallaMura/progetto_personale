@@ -1,0 +1,125 @@
+.favorite-color {
+  color: #CF2BBE; /* Sostituisci con il colore desiderato */
+}
+
+.main-content {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Abilita lo scorrimento verticale quando necessario */
+}
+
+.header-container {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+}
+
+.map-view-header {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: calc(100% - 32px); /* Larghezza al 100% meno il padding di 16px su entrambi i lati */
+  left: 50%;
+  transform: translateX(-50%); /* Centratura orizzontale */
+  background-color: white;
+}
+
+.list-view-header {
+  width: 100%;
+  background-color: #FFF4FF;
+}
+
+.search-form {
+  position: fixed;
+  top: 70px; /* Altezza del container header */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white; /* Sfondo bianco per evidenziare i componenti */
+  z-index: 100; /* Assicura che sia sopra la mappa */
+  // width: 350px;
+  padding: 16px;
+}
+
+.toggle-view-button {
+  position: fixed;
+  top: 700px; /* Altezza del container header + form di ricerca */
+  right: 100px;
+  z-index: 100; /* Assicura che sia sopra la mappa */
+}
+
+.map-container {
+  /* Assicura che non ci siano margini o padding che aggiungano spazio bianco extra */
+  margin: 0;
+  padding: 0;
+}
+
+.main-content {
+  /* Assicura che il contenuto sia flessibile e si adatti all'altezza del viewport */
+  min-height: 100vh; /* Cambiato da 900px a 100vh per occupare tutto lo schermo */
+  display: flex;
+  flex-direction: column;
+}
+
+.locate-user-button {
+  position: absolute;
+  top: 250px;
+  left: 0px;
+}
+
+.product-grid {
+  margin-top: 220px; /* Spazio per header + form di ricerca */
+  margin-right: 16px;
+  margin-left: 16px;
+  margin-bottom: 110px;
+}
+
+/* Stile predefinito dell'icona non preferita (bordo grigio) */
+.not-favorite-icon {
+  color: rgba(0, 0, 0, 0.54); /* Colore grigio standard di Material */
+}
+
+/* Stile dell'icona preferita (rosso) */
+.favorite-icon {
+  color: #4C0641; 
+}
+
+.sticky-search-form {
+  position: sticky;
+  top: 130px; /* Altezza del container header */
+  z-index: 1000; /* Assicurati che il form sia sopra gli altri contenuti */
+}
+
+/* Stile personalizzato per la card */
+.custom-card {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: none; /* Rimuove l'ombra */
+}
+
+.disabled-card {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+
+
+
+
+.delete-indicator {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100px; /* Larghezza dell'indicatore di eliminazione */
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 16px;
+  font-size: 16px;
+  font-weight: bold;
+  z-index: 1; /* Assicura che sia sopra la card */
+}

@@ -1,0 +1,61 @@
+<div style="text-align: center; height: 812px; display: flex; flex-direction: column; justify-content: space-between; align-items: center;">
+
+
+  <div fxLayout="column">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+      style="margin-top: 50px">
+      <div>
+        <button mat-icon-button (click)="goBack()" aria-label="Indietro">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+      </div>
+      <div>
+        <h2 style="margin: 0">Accedi</h2>
+      </div>
+      <div>
+
+      </div>
+    </div>
+  </div>
+
+  <img src="../../../assets/Logo_DonaTo.svg" alt="Logo DonaTo" style="width: 40px; height: auto; margin-top: 30px;">
+
+
+    <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
+
+
+          <mat-form-field appearance="outline" style="width: 350px;">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" name="email" required ngModel>
+            <mat-icon matSuffix>email</mat-icon>
+            
+          </mat-form-field>
+       
+
+          <mat-form-field appearance="outline" style="width: 350px;">
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'" name="password" reqquired ngModel>
+            <button type="button" mat-icon-button matSuffix (click)="clickEvent($event)" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <h5 style="text-align: start; margin-left: 16px;">Password dimenticata? <span style="color: #CF2BBE;">qui per resettarla</span></h5>
+
+          <button
+        mat-raised-button
+        [ngStyle]="{ 'background-color': signupForm.valid ? '#CF2BBE' : '#CCCCCC', 'color': signupForm.valid ? 'white' : 'black' }"
+        type="submit"
+        [disabled]="signupForm.invalid"
+        style="width: 350px; margin-top: 30px;">
+        Accedi
+      </button>
+    </form>
+
+    <h4 style="width: 350px; text-align: start; margin-left: 16px; background-color: #FFF4FF; padding: 10px;">
+      Hai già un account? <a [routerLink]="['/signup']" style="color: #CF2BBE;">Registrati qui</a>
+    </h4>
+
+</div>

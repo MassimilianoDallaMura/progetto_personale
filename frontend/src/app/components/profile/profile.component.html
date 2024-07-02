@@ -1,0 +1,50 @@
+<div style=" overflow-y: auto; height: 812px;">
+  <app-navbar></app-navbar>
+
+  <!-- Informazioni dell'utente -->
+  <div style="display: flex; flex-direction: row; padding-top: 100px;">
+    <!-- Colonna sinistra con l'immagine del profilo -->
+    <div style="margin: 20px;">
+        <img src="{{ user?.avatar }}" alt="Immagine profilo" style="width: 70px; height: auto; border-radius: 8px; object-fit: cover;">
+    </div>
+
+    <!-- Colonna destra con nome, email e città -->
+    <div style="margin-top: 18px;  text-align: start;">
+        <h2 style="margin-bottom: 0px;">{{ user?.username }}</h2>
+        <p style="margin-bottom: 0%;"> ✉️ {{ user?.email }}</p>
+        <p style="margin-bottom: 10px;">📍 {{ user?.city }}</p>
+        <p ><strong style="color: #CF2BBE;" (click)="navigateToComponent('settings')">Impostazioni</strong></p>
+    </div>
+  </div>
+
+
+<!-- Visualizzazione dei prodotti -->
+<p><strong style="margin-left: 16px; margin-top: 16px; margin-bottom: 100px;">I tuoi oggetti</strong></p>
+<div style="padding: 20px;">
+  <div class="product-grid">
+    <ng-container *ngIf="products.length > 0; else noProducts">
+      <div class="product-card" *ngFor="let product of products">
+        <img src="{{ product.photos[0] }}" alt="{{ product.title }}" class="product-image" (click)="viewProductDetails(product.id)">
+      </div>
+    </ng-container>
+    <ng-template #noProducts>
+      <p>Nessun prodotto disponibile.</p>
+    </ng-template>
+  </div>
+
+
+
+
+
+<!-- 
+ 
+  <img src="{{ product.photos[0] }}" alt="{{ product.title }}" class="product-image" (click)="viewProductDetails(product.id)" style="width: 120px;"> -->
+
+    <!-- Nessun prodotto trovato -->
+    <ng-template #noProducts>
+        <p>Nessun prodotto trovato per l'utente loggato.</p>
+    </ng-template>
+  </div>
+
+  <app-footer (navigateToComponent)="navigateToComponent($event)" style="flex: 1;"></app-footer>
+</div>

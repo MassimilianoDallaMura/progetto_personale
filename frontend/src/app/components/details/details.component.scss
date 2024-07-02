@@ -1,0 +1,62 @@
+/* Stili per il container slideshow */
+.slideshow-container {
+  display: flex;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+/* Stili per ciascuna slide */
+.slide {
+  flex: 0 0 100%;
+  transition: transform 0.3s ease;
+}
+
+.slide img {
+
+  height: auto;
+  object-fit: contain;
+}
+
+/* Stili per i puntini */
+.dots-container {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 0;
+  background-color: #bbb;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: #CF2BBE;
+}
+
+/* Stili per i pulsanti precedente e successivo */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  margin-top: -22px;
+  padding: 16px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+.prev {
+  left: 0;
+}
+
+.next {
+  right: 0;
+}

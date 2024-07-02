@@ -1,0 +1,12 @@
+<mat-card style="text-align: center; height: 812px; background-color: #FFF4FF; padding-top: 200px;">
+  <mat-card-header>
+    <mat-card-title style="margin-bottom: 20px;">
+      <h2 *ngIf="type === 'adozione'">Congratulazioni! L'oggetto è stato adottato 🚀</h2>
+      <h2 *ngIf="type === 'donazione'">Congratulazioni! Il tuo oggetto è stato donato 🚀</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <h4 style="margin-bottom: 20px;">In questo modo hai contribuito a ridurre l'impatto ambientale e a far felice una persona 🌍</h4>
+    <button mat-raised-button style="color: #4C0641;" (click)="goToHome()"><strong>Torna alla home</strong></button>
+  </mat-card-content>
+</mat-card>

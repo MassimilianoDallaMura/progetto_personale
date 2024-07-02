@@ -1,0 +1,47 @@
+<div style="text-align: start;height: 812px; ;background-color: #FFF4FF;">
+  <!-- Header fisso -->
+  <div style="height: 48px; background-color: white;"></div>
+  
+      <div style="position: fixed; width: 100%; z-index: 1000; border-bottom: 1px solid rgb(147, 147, 147);">
+        <mat-toolbar style="display: flex; justify-content: space-between; align-items: center; background-color: white">
+          <div >
+            <img src="../../../assets/Logo_DonaTo.svg" alt="Logo Donato" width="30px">
+          </div>
+          <h1>Preferiti</h1>
+          <button mat-icon-button aria-label="notifications">
+            <mat-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon>
+            <span class="cdk-visually-hidden">Notifications</span>
+          </button>
+        </mat-toolbar>
+      </div>
+
+<div *ngIf="favoriteProducts.length > 0; else noFavorites" style="margin-top: 90px;">
+  <div *ngFor="let product of favoriteProducts" style="padding-left: 16px; padding-right: 16px;">
+    <mat-card class="custom-card" style="padding: 16px; margin-top: 10px;">
+      <div class="product-header" fxLayout="row" fxLayoutAlign="start center">
+        <img mat-card-image src="{{ getProductPhoto(product) }}" alt="{{ product.title }}"
+             style="border-radius: 8px; width: 60px; height: auto; cursor: pointer;"
+             (click)="viewProductDetails(product.id)">
+        <div fxLayout="column" style="margin-left: 15px; cursor: pointer;"
+             (click)="viewProductDetails(product.id)">
+          <mat-card-title style="text-align: left; margin-bottom: 0px; font-size: 18px;">{{ product.title }}</mat-card-title>
+          <mat-card-title style="text-align: left; font-size: 14px;">{{ product.category }}</mat-card-title>
+        </div>
+        <div class="right-content" style="margin-left: auto;">
+          <button mat-icon-button (click)="removeFavorite(product)">
+            <mat-icon class="favorite-icon" *ngIf="product.isFavorite" style="color: #4C0641;">favorite</mat-icon>
+            <mat-icon class="not-favorite-icon" *ngIf="!product.isFavorite">favorite_border</mat-icon>
+          </button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  
+</div>
+
+<ng-template #noFavorites>
+  <p style="padding-top: 100px;">Non hai ancora prodotti nei preferiti.</p>
+</ng-template>
+
+<app-footer></app-footer>
+</div>

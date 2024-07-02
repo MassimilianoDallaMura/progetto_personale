@@ -1,0 +1,42 @@
+<div style="text-align: center; height: 812px; background-color: #FFF4FF; overflow-y: auto;">
+  <app-navbar></app-navbar>
+
+  <ng-container *ngIf="!isCityConfirmed">
+    <h1 style="margin-top: 180px; font-size: 3em; line-height: 1.4;">Ti diamo il benvenuto su DonaTo ✨</h1>
+    <h5 style="margin-top: 90px;">Scegli la tua città per iniziare</h5>
+    
+    <div style="position: relative; display: inline-block;">
+      <input type="text" placeholder="Inserisci la tua città" [(ngModel)]="cityInput" style="width: 298px; font-size: 16px; padding: 8px; padding-right: 40px; color: #CF2BBE">
+      <button mat-icon-button (click)="locateUser()" title="Usa la mia posizione" style="position: absolute; right: 0; top: 0; height: 100%; padding: 0;">
+        <mat-icon>my_location</mat-icon>
+      </button>
+    </div>
+
+
+    <!-- Mostra messaggi di errore -->
+    <div *ngIf="errorMessage" style="color: red;">
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <button mat-stroked-button color="custom"
+    [style.background-color]="cityInput ? '#CF2BBE' : '#CCCCCC'" 
+    [disabled]="!cityInput" 
+    (click)="confirmCity()"
+    style="width: 350px; font-size: 18px; margin-top: 20px; color: white;">
+      Conferma
+    </button>
+  </ng-container>
+
+  <ng-container *ngIf="isCityConfirmed">
+    <h2 style="margin-top: 200px;">La tua città è impostata su... <br> 📍<span style="color: #CF2BBE;">{{ selectedCity }}</span></h2>
+    <p style="padding: 16px;">Ricorda, puoi sempre cambiarla più tardi!</p>
+    <p style="margin-top: 70px;">E ora? Inizia subito la tua ricerca!</p>
+    <button mat-stroked-button color="custom"
+            [style.background-color]="selectedCity ? '#CF2BBE' : '#CCCCCC'"
+            [disabled]="!selectedCity"
+            [routerLink]="['/home']"
+            style="width: 350px; font-size: 18px; margin-top: 20px; color: white;">
+      Vai alla home
+    </button>
+  </ng-container>
+</div>

@@ -1,0 +1,144 @@
+<div style="text-align: start; height: 1300px;">
+
+  <div>
+      <div style="position: fixed; width: 100%; top: 0; border-bottom: 1px solid rgb(147, 147, 147); margin-top: 48px; background-color: white;">
+        <mat-toolbar style="display: flex; justify-content: space-between; align-items: center; background-color: white;">
+          <div style="flex-grow: 1;">
+            <mat-icon (click)="close()">close</mat-icon>
+          </div>
+          <div style="text-align: center;">
+            <h1>Aggiungi prodotto</h1>
+          </div>
+          <div style="flex-grow: 1;">
+            <mat-icon>log</mat-icon>
+          </div>
+        </mat-toolbar>
+      </div>
+  </div>
+
+  <!-- Contenuto scrollabile -->
+  <div style="padding-top: 30px; margin-top: 90px; margin-left: 16px; margin-right: 16px;">
+
+    <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)" enctype="multipart/form-data">
+
+      <h3><strong>Titolo</strong></h3>
+      <mat-form-field appearance="outline" style="width: 350px;">
+        <mat-label>Titolo</mat-label>
+        <input matInput type="text" name="title" required minlength="2" maxlength="50" [(ngModel)]="product.title">
+      </mat-form-field>
+
+<!-- Caricamento delle immagini -->
+<h3><strong>Aggiungi foto</strong></h3>
+<div appearance="outline" style="border: 1px solid #848484; border-radius: 8px; padding: 10px;">
+  <div style="display: flex; align-items: center;">
+    <div style="width: 100px; height: 100px; border: 1px solid #CCCCCC; display: flex; align-items: center; justify-content: center; margin-right: 10px; position: relative;">
+      <img [src]="productImages[0].url || 'assets/default-product-image.png'" alt="Immagine Prodotto 1"
+           style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
+           (click)="uploadProductImage(0)">
+      <input type="file" style="display: none;" (change)="onProductImageSelected($event, 0)">
+    </div>
+
+    <div style="width: 100px; height: 100px; border: 1px solid #CCCCCC; display: flex; align-items: center; justify-content: center; margin-right: 10px; position: relative;">
+      <img [src]="productImages[1].url || 'assets/default-product-image.png'" alt="Immagine Prodotto 2"
+           style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
+           (click)="uploadProductImage(1)">
+      <input type="file" style="display: none;" (change)="onProductImageSelected($event, 1)">
+    </div>
+
+    <div style="width: 100px; height: 100px; border: 1px solid #CCCCCC; display: flex; align-items: center; justify-content: center; position: relative;">
+      <img [src]="productImages[2].url || 'assets/default-product-image.png'" alt="Immagine Prodotto 3"
+           style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
+           (click)="uploadProductImage(2)">
+      <input type="file" style="display: none;" (change)="onProductImageSelected($event, 2)">
+    </div>
+  </div>
+</div>
+
+
+
+              <h3 style="margin-top: 20px;"><strong>Descrizione</strong></h3>
+              <mat-form-field appearance="outline" style="width: 350px;">
+                <mat-label>Lascia qualche informazione utile!</mat-label>
+                <input matInput type="text" name="description" required minlength="2" maxlength="50" [(ngModel)]="product.description">
+              </mat-form-field>
+
+              <h3><strong>Categoria</strong></h3>
+              <mat-form-field appearance="outline" style="width: 350px;">
+                <mat-label>Seleziona la categoria</mat-label>
+                <mat-select placeholder="Categoria" required [(ngModel)]="product.category" name="category">
+                  <mat-option *ngFor="let category of categories" [value]="category"> {{ category }} </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <h3><strong>Condizioni</strong></h3>
+              <mat-form-field appearance="outline" style="width: 350px;">
+                <mat-label>Seleziona le condizioni del prodotto</mat-label>
+                <mat-select placeholder="Condizioni" required [(ngModel)]="product.productCondictions" name="productCondictions">
+                  <mat-option *ngFor="let productCondiction of productCondictions" [value]="productCondiction"> {{ productCondiction }} </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+
+              <strong>Posizione del prodotto</strong>
+              <!-- Campo di input per la posizione -->
+              <div class="form-group">
+                <mat-form-field appearance="outline" style="width: 350px;">
+                  <mat-label>Indirizzo Completo</mat-label>
+                  <input matInput type="text" #search name="fullAddress" [(ngModel)]="product.fullAddress">
+                  <button mat-icon-button matSuffix color="#CF2BBE" (click)="locateUser()" type="button">
+                    <mat-icon>my_location</mat-icon>
+                  </button>
+                </mat-form-field>
+              </div>
+              
+              <div style="margin-top: 10px; text-align: left;">
+                <h4 style="margin-bottom: 5px;"><strong>L'oggetto appartiene a te?</strong></h4>
+                <mat-radio-group [(ngModel)]="owned" name="owned" aria-label="Select an option" style="display: block;" (ngModelChange)="onOwnedChange()">
+                  <mat-radio-button [value]="true" style="display: block;">Sì</mat-radio-button>
+                  <mat-radio-button [value]="false" style="display: block;">No</mat-radio-button>
+                </mat-radio-group>
+              </div>
+              <div *ngIf="owned === true" appearance="outline">
+                <div style="text-align: left; margin-top: 10px;">
+                  <h4 style="margin-bottom: 5px; margin-right: 16px;"><strong>Vuoi chiedere il ritiro ad Amiat se il tuo oggetto non viene adottato?</strong></h4>
+                  <mat-radio-group [(ngModel)]="toBeWithdrawn" name="toBeWithdrawn" aria-label="Select an option" (change)="onToBeWithdrawnChange($event.value)">
+                    <mat-radio-button [value]="true" style="display: block;">Sì</mat-radio-button>
+                    <mat-radio-button [value]="false" style="display: block;">No</mat-radio-button>
+                  </mat-radio-group>
+
+                  <div *ngIf="toBeWithdrawn === true">
+                    <h5><span style="color: #CF2BBE;">È stata inviata una notifica all'azienda</span> per il ritiro del tuo prodotto. Se dovesse cambiare qualcosa prima, ricordati di annullare il ritiro!</h5>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngIf="owned === false">
+                <div style="margin-top: 10px; text-align: left;">
+                  <h4 style="margin-bottom: 5px;"><strong>È già presente un codice per il ritiro?</strong></h4>
+                  <mat-radio-group [(ngModel)]="companyProperty" name="companyProperty" aria-label="Select an option" style="display: block;" (ngModelChange)="onCompanyPropertyChanged()">
+                    <mat-radio-button [value]="true" style="display: block;">Sì</mat-radio-button>
+                    <mat-radio-button [value]="false" style="display: block;">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+
+                <div *ngIf="companyProperty === true" style="margin-top: 10px; text-align: left; margin-right: 16px;">
+                  <h4 style="margin-bottom: 5px;"><strong>Inserisci il codice</strong></h4>
+                  <mat-form-field class="example-full-width" appearance="outline" style="margin-right: 16px;">
+                    <mat-label>Codice</mat-label>
+                    <input matInput type="text" name="disposalCode" [(ngModel)]="disposalCode" required minlength="6" maxlength="10">
+                  </mat-form-field>
+                  <h5>Con questo codice l'azienda potrà monitorare il ciclo dell'oggetto e <span style="color: #CF2BBE;">non dovrà effettuare un viaggio a vuoto</span> se verrà ritirato prima della data prevista</h5>
+                </div>
+              </div>
+
+              <button mat-raised-button
+                [ngStyle]="{ 'background-color': signupForm.valid ? '#CF2BBE' : '#CCCCCC', 'color': signupForm.valid ? 'white' : 'black' }"
+                type="submit" 
+                [disabled]="signupForm.invalid || selectedFiles.length === 0"
+                style="width: 350px; position: fixed; bottom: 20px; left: calc(50% - 175px);">
+                Carica l'oggetto
+              </button>
+
+    </form>
+  </div>
+</div>

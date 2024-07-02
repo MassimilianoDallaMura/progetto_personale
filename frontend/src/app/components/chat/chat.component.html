@@ -1,0 +1,104 @@
+<div style="height: 812px; position: relative; overflow: hidden;">
+  <!-- Header fisso -->
+  <div style="position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgb(147, 147, 147); background-color: white;">
+    <mat-toolbar style="display: flex; justify-content: space-between; align-items: center;">
+      <div>
+        <mat-icon (click)="goBack()">chevron_left</mat-icon>
+      </div>
+      <h1>Dettagli profilo</h1>
+      <button mat-icon-button aria-label="notifications">
+        <mat-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon>
+        <span class="cdk-visually-hidden">Notifications</span>
+      </button>
+    </mat-toolbar>
+  </div>
+
+  <div style="padding-top: 60px; padding-bottom: 120px; overflow-y: auto; height: 100%;">
+      <div>
+        <mat-card class="chat-card" style="background-color: rgb(233, 233, 233);" >
+          <mat-card-content>
+            <div class="product-details">
+              <div class="product-image">
+                <img [src]="request?.product.photos[0]" alt="Immagine Prodotto" width="46px" height="46px">
+              </div>
+              <div class="product-info">
+                <p style="margin-left: 5px;" class="product-title">{{ request?.product.title }}</p>
+              </div>
+            </div>
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-raised-button
+                    [ngClass]="{'disabled-button': request.statusRequest === 'APPROVED'}"
+                    style="background-color: #CF2BBE; color: white; height: 32px; width: 343px; margin-left: 16px; margin-right: 16px; border: 8px;"
+                    *ngIf="isCurrentUserOwner()"
+                    [disabled]="request.statusRequest === 'APPROVED'"
+                    (click)="openModal(false)">
+              Dona!
+            </button> 
+            <button mat-raised-button
+                    [ngClass]="{'disabled-button': request.statusRequest === 'APPROVED'}"
+                    style="background-color: #CF2BBE; color: white; height: 32px; width: 343px; margin-left: 16px; margin-right: 16px; border: 8px;"
+                    *ngIf="!isCurrentUserOwner()"
+                    [disabled]="request.statusRequest === 'APPROVED'"
+                    (click)="openModal(true)">
+              {{ markedAsAdopted ? 'Segnalato come adottato' : 'Segnala come adottato' }}
+            </button>
+            <button mat-raised-button
+                    [ngClass]="{'disabled-button': request.statusRequest === 'APPROVED'}"
+                    style="background-color: red; color: white; height: 32px; width: 343px; margin-left: 16px; margin-right: 16px; border: 8px;"
+                    *ngIf="isCurrentUserOwner()"
+                    [disabled]="request.statusRequest === 'APPROVED'"
+                    (click)="rejectRequest()">
+              Rifiuta
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    <!-- Chat tra Utenti -->
+    <div class="chat-wrapper">
+      <!-- Intestazione della chat -->
+      <div class="chat-header">
+        <h2>Chat tra {{ request.user.username }} e {{ request.owner.username }}</h2>
+      </div>
+
+      <!-- Area della chat -->
+      <div class="chat-area">
+        <div class="message-container">
+          <div [ngClass]="{'sent': true, 'received': false}">
+            <p>prova</p>
+          </div>
+        </div>
+        <!-- Messaggio "l'oggetto è stato donato" -->
+        <div class="donated-message" *ngIf="request.statusRequest === 'APPROVED' && this.request.product.owner.id === this.userId">
+          <p style="color: green;">L'oggetto è stato donato</p>
+        </div>
+        <!-- Messaggio "l'oggetto è stato adottato" -->
+        <div class="adopted-message" *ngIf="request.statusRequest === 'APPROVED' && this.request.product.owner.id !== this.userId">
+          <p style="color: green;">L'oggetto è stato adottato</p>
+        </div>
+      </div>
+    </div>
+
+<!-- Modale -->
+<div class="modal" *ngIf="modalOpen">
+  <div class="modal-content">
+    <button mat-icon-button class="close-button" (click)="closeModal()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <h3>Confermi di voler {{ markedAsDonated ? 'donare' : 'adottare' }} l' oggetto?</h3>
+    <p>Se sì, clicca sul codice qui sotto.</p>
+    <p>Quando anche l'altro utente confermerà il suo, la richiesta sarà confermata ♻️ </p>
+    <button mat-raised-button class="custom-colored-button" (click)="confirm()"> {{ customCode }} </button>
+  </div>
+</div>
+
+
+
+  <!-- Area di Composizione Messaggio -->
+  <div class="compose-message-container" style="position: fixed; width: 100%; bottom: 0; z-index: 1000; background-color: #CF2BBE;">
+    <div class="compose-message">
+      <textarea placeholder="Scrivi un messaggio..."></textarea>
+      <button mat-button style="color: white;">Invia</button>
+    </div>
+  </div>
+</div>

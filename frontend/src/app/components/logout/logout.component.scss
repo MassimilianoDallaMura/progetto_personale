@@ -1,0 +1,10 @@
+.custom-dialog-actions {
+    display: flex;
+    justify-content: flex-start;
+    gap: 0; /* Rimuove lo spazio tra i pulsanti */
+  
+    button {
+      margin: 0; /* Rimuove il margine dai pulsanti */
+    }
+  }
+  

@@ -1,0 +1,73 @@
+<div class="main-content" style="background-color: #FFF4FF;">
+  <app-navbar></app-navbar>
+
+  <!-- Header con informazioni sulla città -->
+  <div class="header-container" [ngClass]="{ 'map-view-header': isMapView, 'list-view-header': !isMapView }">
+    <div>
+      <div style="display: flex; margin-left: 16px; margin-right: 16px; align-items: center; justify-content: space-between; padding-top: 120px;">
+        <h4>La tua città è <strong>{{ selectedCity }}</strong></h4>
+        <h4><strong style="color: #CF2BBE; cursor: pointer;">Cambia città</strong></h4>
+      </div>
+
+      <!-- Form di ricerca -->
+      <form (ngSubmit)="onSearch(searchForm)" #searchForm="ngForm" style="padding: 0 16px; display: flex; align-items: center; justify-content: center;">
+        <mat-form-field appearance="outline" style="width: 350px;">
+          <mat-label>Cerca prodotti</mat-label>
+          <input matInput type="text" name="searchQuery" ngModel>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <!-- Pulsante per cambiare visualizzazione -->
+    <button mat-raised-button style="background-color: #CF2BBE; border-radius: 8px; color: white; position: fixed; top: 720px; right: 100px; z-index: 1000;" (click)="toggleView()">
+      {{ isMapView ? 'Visualizza Lista' : 'Visualizza Mappa' }}
+    </button>
+  </div>
+
+  <!-- Visualizzazione della lista -->
+  <div *ngIf="!isMapView; else mapView" class="product-grid">
+    <div *ngFor="let product of products">
+   <mat-card class="custom-card" style="margin-top: 15px; background-color: transparent;">
+        <div fxLayout="row" fxLayoutAlign="space-between start">
+          <!-- Contenitore principale per titolo, immagine, categoria e icona preferito -->
+          <div fxLayout="column" fxLayoutAlign="start start" style="flex-grow: 1;">
+            <!-- Titolo del prodotto -->
+            <mat-card-title style="text-align: left; font-size: 18px; margin-bottom: 8px;"><strong>{{ product.title }}</strong></mat-card-title>
+
+            <!-- Immagine del prodotto -->
+            <img mat-card-image [src]="getProductPhoto(product)" [alt]="product.title" class="mat-card-image custom-card" (click)="viewProductDetails(product.id)">
+
+            <!-- Contenitore per categoria e icona preferito -->
+            <div fxLayout="row" fxLayoutAlign="space-between center" style="width: 100%;">
+              <!-- Categoria del prodotto -->
+              <mat-card-subtitle style="text-align: left; font-size: 14px; flex-grow: 1;" (click)="viewProductDetails(product.id)">
+                <strong><strong>{{ product.category }}</strong></strong>
+              </mat-card-subtitle>
+
+              <!-- Icona preferito -->
+              <button mat-icon-button (click)="addToFavorites(product)">
+                <mat-icon [ngClass]="{ 'favorite-icon': product.isFavorite, 'not-favorite-icon': !product.isFavorite }">
+                  {{ product.isFavorite ? 'favorite' : 'favorite_border' }}
+                </mat-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Visualizzazione della mappa -->
+  <ng-template #mapView>
+    <ng-container *ngIf="products.length > 0; else noProducts">
+      <app-map [center]="center" [zoom]="zoom" [products]="products"></app-map>
+    </ng-container>
+  </ng-template>
+
+  <!-- Nessun prodotto trovato -->
+  <ng-template #noProducts>
+    <p>Nessun prodotto trovato per la città selezionata.</p>
+  </ng-template>
+
+  <app-footer></app-footer>
+</div>

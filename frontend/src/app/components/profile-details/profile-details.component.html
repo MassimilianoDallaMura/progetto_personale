@@ -1,0 +1,77 @@
+<div style="height: 812px; position: relative; overflow: hidden;">
+
+  <!-- Header fisso -->
+  <div style="height: 48px; background-color: transparent;"></div>
+  
+      <div style="position: fixed; width: 100%; z-index: 1000; border-bottom: 1px solid rgb(147, 147, 147);">
+        <mat-toolbar style="display: flex; justify-content: space-between; align-items: center; background-color: white">
+          <div >
+            <mat-icon (click)="goBack()">chevron_left</mat-icon>
+          </div>
+          <h1>Dettagli profilo</h1>
+          <button mat-icon-button aria-label="notifications">
+            <mat-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon>
+            <span class="cdk-visually-hidden">Notifications</span>
+          </button>
+        </mat-toolbar>
+      </div>
+
+
+  <div *ngIf="imageUrl">
+    <img [src]="imageUrl" alt="Anteprima Immagine" style="max-width: 200px; margin-top: 10px;">
+  </div>
+
+<!-- Informazioni dell'utente -->
+<div style="display: flex; flex-direction: row; padding-top: 100px;">
+  <!-- Colonna sinistra con l'immagine del profilo -->
+  <div style="margin: 20px; position: relative; cursor: pointer;">
+    <!-- Label per attivare l'input file -->
+    <label for="profileImageInput">
+      <!-- Immagine del profilo -->
+      <img [src]="user?.avatar || 'assets/default-avatar.png'" alt="Immagine profilo"
+           style="width: 100px; height: auto; border-radius: 8px; object-fit: cover;">
+    </label>
+    <!-- Input nascosto per il caricamento dell'immagine -->
+    <input id="profileImageInput" type="file" style="display: none;" (change)="onFileSelected($event)">
+  </div>
+
+  <!-- Colonna destra con nome, email e città -->
+  <div style="margin-top: 18px; text-align: start;">
+    <h2 style="margin-bottom: 0px;">{{ user?.username }}</h2>
+    <p><strong style="color: #CF2BBE;" (click)="onUploadProfileImage()">Imposta immagine profilo</strong></p>
+  </div>
+</div>
+
+
+  
+  <div style="padding-left: 16px; padding-top: 16px;" *ngIf="user">
+    <div>
+      <p><strong>Nome:</strong></p>
+      <h4>{{ user.name }}</h4>
+    </div>
+    <div>
+      <p><strong>Cognome:</strong></p>
+      <h4>{{ user.surname }}</h4>
+    </div>
+    <div>
+      <p><strong>Username</strong></p>
+      <h4>{{ user.username }}</h4>
+    </div>
+    <div>
+      <p><strong>Email:</strong></p>
+      <h4>{{ user.email }}</h4>
+    </div>
+    <div>
+      <p><strong>La tua città:</strong></p>
+      <h4>{{ user.city }}</h4>
+    </div>
+  </div>
+  
+  <!-- Pulsanti fissi in fondo -->
+  <div style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 700px; display: flex; flex-direction: column; align-items: center; padding: 0 16px;">
+    <button mat-raised-button color="warn" style="width: 100%; color: white; margin-bottom: 10px;" (click)="deleteProfile()">Elimina Profilo</button>
+    <button mat-raised-button style="width: 100%; margin-bottom: 10px;">Modifica Password</button>
+  </div>
+
+</div>
+

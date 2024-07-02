@@ -1,0 +1,87 @@
+.chat-card {
+  margin: 5px;
+  
+}
+
+.product-details {
+  display: flex;
+  align-items: center;
+}
+
+.product-image img {
+  width: 46px;
+  height: 46px;
+}
+
+.product-info .product-title {
+  margin-left: 5px;
+}
+
+.compose-message-container {
+  background-color: #CF2BBE;
+  padding: 10px;
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+.compose-message {
+  display: flex;
+  align-items: center;
+}
+
+.compose-message textarea {
+  width: calc(100% - 80px); /* Adjust width according to your needs */
+  height: 40px; /* Adjust height according to your needs */
+  resize: none;
+}
+
+.compose-message button {
+  margin-left: 10px;
+}
+
+.chat-header {
+
+  padding: 10px;
+  color: black; /* Assuming you want the text to be white */
+  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+.mat-raised-button {
+  border-radius: 4px; /* Optional: adds rounded corners to buttons */
+}
+
+.disabled-button {
+  opacity: 0.6;
+}
+
+.modal {
+  display: flex;
+  align-items: center; /* Centra verticalmente */
+  justify-content: center; /* Centra orizzontalmente */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Sfondo semi-trasparente */
+  z-index: 1001; /* Z-index superiore rispetto agli altri elementi */
+}
+
+
+
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  max-width: 80%; /* Larghezza massima della modale */
+  text-align: center; /* Testo centrato */
+}
+
+.custom-colored-button {
+  background-color: #CF2BBE !important; /* Assicurati di usare !important per sovrascrivere altri stili */
+  color: white !important; /* Testo bianco */
+
+  border: none !important; /* Nessun bordo */
+}
+
+
