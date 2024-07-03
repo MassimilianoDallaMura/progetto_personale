@@ -38,22 +38,26 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private updateMarkers(): void {
-    this.mapService.clearMarkers();
-    this.products.forEach(product => {
-      const latitude = Number(product.latitude);
-      const longitude = Number(product.longitude);
-      if (!isNaN(latitude) && !isNaN(longitude)) {
-        const title = product.title;
-        const content = `
-          <div>
-            <h4>${product.title}</h4>
-            <p>${product.description}</p>
-          </div>
-        `;
-        this.mapService.addMarker(latitude, longitude, title, content);
-      }
-    });
+    if (this.mapService) {
+      this.mapService.clearMarkers(); // Rimuovi tutti i marker precedenti
+      this.products.forEach(product => {
+        const latitude = Number(product.latitude);
+        const longitude = Number(product.longitude);
+        if (!isNaN(latitude) && !isNaN(longitude)) {
+          const title = product.title;
+          const content = `
+            <div>
+              <h4>${product.title}</h4>
+              <p>${product.description}</p>
+            </div>
+          `;
+          this.mapService.addMarker(latitude, longitude, title, content);
+        }
+      });
+    }
   }
+  
+  
 
   private updateMapCenter(): void {
     this.mapService.setCenter(this.center.lat, this.center.lng);

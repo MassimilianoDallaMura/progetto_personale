@@ -62,29 +62,40 @@ export class HomeComponent implements OnInit {
         this.products = products;
         // Aggiorna lo stato 'isFavorite' per i prodotti caricati
         this.updateFavoriteStatus();
-        // Aggiungi marker alla mappa per ciascun prodotto se è attiva la vista mappa
+  
         if (this.isMapView) {
-          products.forEach(product => {
-            const latitude = product.latitude;
-            const longitude = product.longitude;
-            if (!isNaN(latitude) && !isNaN(longitude)) {
-              // Costruisci il contenuto del marcatore con l'immagine
-              const markerContent = `
-                <div>
-                  <h4>${product.title}</h4>
-                  <img src="${product.photos}" style="max-width: 100px; height: auto;">
-                </div>
-              `;
-              // Aggiungi il marker alla mappa
-              this.mapService.addMarker(latitude, longitude, product.title, markerContent);
-            }
-          });
+          this.updateMapMarkers();
         }
       },
       (error) => {
         console.error('Error fetching products by city:', error);
       }
     );
+  }
+  
+  updateMapMarkers() {
+    if (!this.mapService) {
+      console.error('MapService is not initialized.');
+      return;
+    }
+  
+    // // Pulisce tutti i marcatori esistenti
+    // this.mapService.clearMarkers();
+  
+    // Aggiunge un nuovo marcatore per ciascun prodotto
+    this.products.forEach(product => {
+      const latitude = product.latitude;
+      const longitude = product.longitude;
+      if (!isNaN(latitude) && !isNaN(longitude)) {
+        const markerContent = `
+          <div>
+            <h4>${product.title}</h4>
+            <img src="${product.photos}" style="max-width: 100px; height: auto;">
+          </div>
+        `;
+        this.mapService.addMarker(latitude, longitude, product.title, markerContent);
+      }
+    });
   }
   
   
@@ -103,9 +114,11 @@ export class HomeComponent implements OnInit {
     }
   }
   
-
   toggleView(): void {
     this.isMapView = !this.isMapView;
+    if (this.isMapView) {
+      this.updateMapMarkers();
+    }
   }
 
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, catchError, tap } from 'rxjs';
 import { environment } from 'src/environments/environment'; // Importa l'URL del backend da environment
 
@@ -13,13 +13,6 @@ export class RequestService {
 
   constructor(private http: HttpClient) {}
 
-  // Metodo per effettuare la chiamata API per ottenere i dettagli di una singola richiesta
-  // getRequestDetails(requestId: number): Observable<any> {
-  //   const url = `${this.apiUrl}/${requestId}`; // Assicurati che l'API del backend abbia un endpoint per ottenere i dettagli della richiesta per ID
-  //   return this.http.get<any>(url);
-  // }
-
-  // Metodo per effettuare la chiamata API per inviare una richiesta di contatto
   sendContactRequest(userId: string, productId: string): void {
     const payload = {
       userId: userId,
@@ -39,45 +32,48 @@ export class RequestService {
       );
   }
 
-  // Metodo per effettuare la chiamata GET per ottenere le richieste dell'utente
   getProductRequestsByUserId(userId: string): Observable<any[]> {
     const url = `${this.apiUrl}/users/${userId}`;
     return this.http.get<any[]>(url);
   }
 
-   //Metodo get per estrarre richieste by requestId
   getRequestById(requestId: number): Observable<any> {
     const url = `${this.apiUrl}/${requestId}`;
-    return this.http.get<any[]>(url);
+    return this.http.get<any>(url);
   }
 
-  //Metodo get per estrarre richieste by ownerId
   getProductRequestsByOwnerId(ownerId: string): Observable<any[]> {
     const url = `${this.apiUrl}/owners/${ownerId}`;
     return this.http.get<any[]>(url);
   }
 
-
-  confirmDonazione(requestId: number, customCode: string): Observable<any> {
-    const url = `${this.apiUrl}/confirmDona`;
-    const params = { requestId: requestId.toString(), customCode };
-    return this.http.post(url, null, { params });
-  }
-
-  confirmAdozione(requestId: number, customCode: string): Observable<any> {
+  confirmAdozione(requestId: number, customCode: string): Observable<string> {
     const url = `${this.apiUrl}/confirmAdotta`;
-    const params = { requestId: requestId.toString(), customCode };
-    return this.http.post(url, null, { params }).pipe(
-      tap((response: any) => console.log('Risposta da conferma adozione:', response)),
+    const params = new HttpParams().set('requestId', requestId.toString()).set('customCode', customCode);
+    console.log('Chiamata API confirmAdozione:', url, params.toString());
+    return this.http.post(url, null, { params, responseType: 'text' }).pipe(
+      tap((response: string) => console.log('Risposta da conferma adozione:', response)),
       catchError(error => {
         console.error('Errore durante la conferma dell\'adozione:', error);
         throw error;
       })
     );
   }
+
+  confirmDonazione(requestId: number, customCode: string): Observable<string> {
+    const url = `${this.apiUrl}/confirmDona`;
+    const params = new HttpParams().set('requestId', requestId.toString()).set('customCode', customCode);
+    console.log('Chiamata API confirmDonazione:', url, params.toString());
+    return this.http.post(url, null, { params, responseType: 'text' }).pipe(
+      tap((response: string) => console.log('Risposta da conferma donazione:', response)),
+      catchError(error => {
+        console.error('Errore durante la conferma della donazione:', error);
+        throw error;
+      })
+    );
+  }
+
   deleteRequest(requestId: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/delete/${requestId}`);
   }
-
- 
 }

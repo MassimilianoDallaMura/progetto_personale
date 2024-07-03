@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 })
 export class MapService {
   private map: google.maps.Map | undefined; // Aggiungi il tipo di mappa come opzionale
-
   private markers: google.maps.Marker[] = [];
 
   constructor() { }
@@ -47,9 +46,9 @@ export class MapService {
     }
 
     this.markers.forEach(marker => {
-      marker.setMap(null);
+      marker.setMap(null); // Rimuovi il marker dalla mappa
     });
-    this.markers = [];
+    this.markers = []; // Svuota l'array dei marker
   }
 
   setCenter(lat: number, lng: number): void {

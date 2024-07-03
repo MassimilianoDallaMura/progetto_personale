@@ -4,7 +4,6 @@ import { RequestService } from 'src/app/service/request.service';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Location } from '@angular/common';
 
-
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -19,7 +18,6 @@ export class ChatComponent implements OnInit {
   modalOpen = false;
   customCode: string = '';
   feedbackMessage: string = '';  // Feedback message
-
 
   constructor(
     private route: ActivatedRoute,
@@ -89,39 +87,41 @@ export class ChatComponent implements OnInit {
   }
 
   confirm(): void {
+    console.log('Metodo confirm chiamato');
+    console.log('requestId:', this.requestId, 'customCode:', this.customCode);
     if (this.requestId && this.customCode) {
       if (this.markedAsAdopted) {
         this.requestService.confirmAdozione(this.requestId, this.customCode).subscribe(
           response => {
             console.log('Conferma adozione avvenuta con successo:', response);
-            this.showFeedbackMessage('Adozione confermata con successo');
-            this.closeModal(); // Chiude il modale dopo la conferma
+            this.showFeedbackMessage('Adozione confermata con successo: ' + response);
+            this.closeModal();
+            console.log('Modale chiusa dopo adozione');
             this.router.navigate(['/confirm-request', { type: 'adozione' }]);
           },
           error => {
             console.error('Errore durante la conferma dell\'adozione:', error);
-            this.showFeedbackMessage('Errore durante la conferma dell\'adozione');
+            this.showFeedbackMessage('Errore durante la conferma dell\'adozione: ' + error.message);
           }
         );
       } else if (this.markedAsDonated) {
         this.requestService.confirmDonazione(this.requestId, this.customCode).subscribe(
           response => {
             console.log('Conferma donazione avvenuta con successo:', response);
-            this.showFeedbackMessage('Donazione confermata con successo');
-            this.closeModal(); // Chiude il modale dopo la conferma
+            this.showFeedbackMessage('Donazione confermata con successo: ' + response);
+            this.closeModal();
+            console.log('Modale chiusa dopo donazione');
             this.router.navigate(['/confirm-request', { type: 'donazione' }]);
           },
           error => {
             console.error('Errore durante la conferma della donazione:', error);
-            this.showFeedbackMessage('Errore durante la conferma della donazione');
+            this.showFeedbackMessage('Errore durante la conferma della donazione: ' + error.message);
           }
         );
       }
     }
   }
-  
-  
-  
+
   rejectRequest(): void {
     // Metodo per rifiutare la richiesta (implementazione omessa per brevità)
   }
@@ -129,6 +129,4 @@ export class ChatComponent implements OnInit {
   goBack(): void {
     this.location.back(); // Questo metodo naviga alla pagina precedente nella cronologia del browser
   }
-
-
 }
