@@ -7,7 +7,6 @@ import { AuthData } from 'src/app/interface/auth-data.interface';
 import { RequestService } from 'src/app/service/request.service';
 import { MatDialog } from '@angular/material/dialog'; // Import MatDialog for modal usage
 
-
 interface DistanceMatrixResponse {
   rows: Array<{
     elements: Array<{
@@ -40,7 +39,6 @@ export class DetailsComponent implements OnInit {
     private authService: AuthService,
     private requestService: RequestService,
     private dialog: MatDialog // Inject MatDialog for modal usage
-
   ) {}
 
   ngOnInit(): void {
@@ -99,10 +97,10 @@ export class DetailsComponent implements OnInit {
 
         if (!this.product || !this.product.latitude || !this.product.longitude) {
           console.error('Product location is not available');
-          // Gestire il caso in cui la posizione del prodotto non è disponibile
+          // Handle case where product location is not available
         } else {
           console.log('Product location:', this.product.latitude, this.product.longitude);
-          this.updateProductDistances(); // Chiamare il metodo per aggiornare le distanze solo se la posizione è disponibile
+          this.updateProductDistances(); // Call method to update distances only if location is available
         }
 
         this.currentImageIndex = 0;
@@ -138,14 +136,6 @@ export class DetailsComponent implements OnInit {
     const service = new google.maps.DistanceMatrixService();
     const origin = new google.maps.LatLng(this.userLocation.lat, this.userLocation.lng);
     const destination = new google.maps.LatLng(this.product.latitude, this.product.longitude);
-    const timeoutMs = 10000;
-
-    const timeoutId = setTimeout(() => {
-      console.error('Timeout exceeded while calculating distances.');
-      if (this.product) {
-        this.product.distance = 'Timeout exceeded';
-      }
-    }, timeoutMs);
 
     service.getDistanceMatrix({
       origins: [origin],
@@ -153,8 +143,6 @@ export class DetailsComponent implements OnInit {
       travelMode: google.maps.TravelMode.DRIVING,
       unitSystem: google.maps.UnitSystem.METRIC,
     }, (response: DistanceMatrixResponse | null, status: google.maps.DistanceMatrixStatus) => {
-      clearTimeout(timeoutId);
-
       if (status === google.maps.DistanceMatrixStatus.OK && response && response.rows.length > 0 && response.rows[0].elements.length > 0) {
         const element = response.rows[0].elements[0];
         if (element.status === 'OK' && element.distance) {
@@ -197,13 +185,22 @@ export class DetailsComponent implements OnInit {
   nextImage(): void {
     if (this.product && this.product.photos && this.product.photos.length > 0) {
       this.currentImageIndex = (this.currentImageIndex + 1) % this.product.photos.length;
+      // Forza il rilevamento delle modifiche
+      setTimeout(() => {}, 0);
     }
   }
-
+  
   previousImage(): void {
     if (this.product && this.product.photos && this.product.photos.length > 0) {
       this.currentImageIndex = (this.currentImageIndex - 1 + this.product.photos.length) % this.product.photos.length;
+      // Forza il rilevamento delle modifiche
+      setTimeout(() => {}, 0);
     }
+  }
+  
+
+  setCurrentImageIndex(index: number): void {
+    this.currentImageIndex = index;
   }
 
   deleteProduct(): void {
@@ -308,4 +305,5 @@ export class DetailsComponent implements OnInit {
       return this.product.available ? 'Segnala come assente' : 'Segnala come presente';
     }
   }
+
 }

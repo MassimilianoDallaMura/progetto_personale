@@ -24,7 +24,7 @@
       <h3><strong>Titolo</strong></h3>
       <mat-form-field appearance="outline" style="width: 350px;">
         <mat-label>Titolo</mat-label>
-        <input matInput type="text" name="title" required minlength="2" maxlength="50" [(ngModel)]="product.title">
+        <input matInput type="text" name="title" required minlength="5" maxlength="20" [(ngModel)]="product.title">
       </mat-form-field>
 
 <!-- Caricamento delle immagini -->
@@ -59,7 +59,7 @@
               <h3 style="margin-top: 20px;"><strong>Descrizione</strong></h3>
               <mat-form-field appearance="outline" style="width: 350px;">
                 <mat-label>Lascia qualche informazione utile!</mat-label>
-                <input matInput type="text" name="description" required minlength="2" maxlength="50" [(ngModel)]="product.description">
+                <input matInput type="text" name="description" required minlength="10" maxlength="50" [(ngModel)]="product.description">
               </mat-form-field>
 
               <h3><strong>Categoria</strong></h3>
@@ -84,7 +84,7 @@
               <div class="form-group">
                 <mat-form-field appearance="outline" style="width: 350px;">
                   <mat-label>Indirizzo Completo</mat-label>
-                  <input matInput type="text" #search name="fullAddress" [(ngModel)]="product.fullAddress">
+                  <input matInput type="text" #search name="fullAddress" required [(ngModel)]="product.fullAddress">
                   <button mat-icon-button matSuffix color="#CF2BBE" (click)="locateUser()" type="button">
                     <mat-icon>my_location</mat-icon>
                   </button>

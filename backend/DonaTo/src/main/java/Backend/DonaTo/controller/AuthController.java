@@ -3,7 +3,6 @@ package Backend.DonaTo.controller;
 import Backend.DonaTo.dto.UserDto;
 import Backend.DonaTo.dto.UserLoginDto;
 import Backend.DonaTo.exception.BadRequestException;
-import Backend.DonaTo.exception.EmailAlreadyExistsException;
 import Backend.DonaTo.service.AuthService;
 import Backend.DonaTo.service.UserService;
 
@@ -33,8 +32,12 @@ public class AuthController {
 
         // Verifica se l'email è già presente nel database
         if (userService.existsByEmail(userDto.getEmail())) {
-            throw new EmailAlreadyExistsException("L'indirizzo email è già registrato.");
+            throw new BadRequestException("L'indirizzo email è già registrato.");
         }
+        if (userService.isUsernameTaken(userDto.getUsername())) {
+            throw new BadRequestException("l'username è già registrato");
+        }
+
 
         userService.saveUser(userDto);
         return 1;

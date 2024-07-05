@@ -2,12 +2,11 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between; /* Distribuisce gli elementi in modo uniforme tra i margini */
-    gap: 20px; /* Spazio tra le immagini */
   }
   
   .product-card {
-    width: calc(50% - 10px); /* Larghezza del 50% meno il margine per due colonne */
-    margin-bottom: 20px; /* Margine inferiore tra le carte */
+    width: 50%; /* Larghezza del 50% meno il margine per due colonne */
+    margin-bottom: 10px; /* Margine inferiore tra le carte */
     padding: 0 10px; /* Padding opzionale per separare le carte */
     box-sizing: border-box; /* Assicura che il padding non aumenti la larghezza delle carte */
   }

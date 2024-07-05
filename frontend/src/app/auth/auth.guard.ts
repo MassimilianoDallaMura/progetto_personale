@@ -18,8 +18,8 @@ export class AuthGuard implements CanActivate {
       | boolean
       | UrlTree {
       return this.authSrv.user$.pipe(
-          take(1),
-          map((user) => {
+          take(1),      // leggono il behacv subj 
+          map((user) => {           // leggono il behacv subj 
               if (user) {
                   return true;
               }

@@ -1,17 +1,4 @@
 <!-- Header fisso -->
-<!-- <div style="position: fixed; top: 30px; left: 0; background-color: white; right: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 10px;"> -->
-  <!-- <div style="flex-grow: 1;">
-    <mat-icon [routerLink]="['/home']">close</mat-icon>
-  </div>
-  <div style="flex-grow: 10; text-align: center;">
-    <h1>Dettagli prodotto</h1>
-  </div>
-  <div style="flex-grow: 1;">
-    <mat-icon>icon_name</mat-icon>
-  </div>
-</div> -->
-
-
 <div style="position: fixed; width: 100%; z-index: 1000; margin-top: 48px;">
   <mat-toolbar style="display: flex; justify-content: space-between; align-items: center; background-color: white">
     <mat-icon [routerLink]="['/home']">close</mat-icon>
@@ -24,72 +11,59 @@
   </mat-toolbar>
 </div>
 
-
-
 <div style="height: 60px;"></div>
 
-<div class="product-header" fxLayout="row" fxLayoutAlign="center center" style="margin-top: 60px; width: 100%;">
-  <div fxLayout="column" >
-      <mat-card-title style="text-align: left;"><h1>{{ product?.title }}</h1></mat-card-title>
-      <p style="text-align: left;">📍 {{ product?.distance }}</p>
-      <div fxLayout="row" fxLayoutAlign="space-between">
-        <h4 style="color: #CF2BBE; cursor: pointer;" (click)="openGoogleMaps(product?.latitude, product?.longitude)">
-          <strong>Indicazioni</strong>
-        </h4>
-        <p style="text-align: left;"><strong>Aggiunto</strong> {{ daysSinceUpload }} giorni fa</p>
-      </div>
-   
-   
+<!-- Container principale -->
+<div class="product-container" fxLayout="column" fxLayoutAlign="center center">
+  <!-- Titolo e dettagli -->
+  <div fxLayout="column" style="width: 100%; max-width: 600px;">
+    <mat-card-title style="text-align: left; margin-top: 100px; margin-left: 16px; margin-right: 16px;"><h1>{{ product?.title }}</h1></mat-card-title>
+    <p style="text-align: left; margin-left: 16px; margin-right: 16px;">📍 {{ product?.distance }}</p>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <h4 style="color: #CF2BBE; cursor: pointer; margin-left: 16px;" (click)="openGoogleMaps(product?.latitude, product?.longitude)">
+        <strong>Indicazioni</strong>
+      </h4>
+      <p style="text-align: left; margin-right: 16px;"><strong>Aggiunto</strong> {{ daysSinceUpload }} giorni fa</p>
+    </div>
 
-   <div *ngIf="product">
-  <!-- Slideshow delle immagini del prodotto -->
-  <div style="margin-top: 20px; position: relative; overflow: hidden;">
-    <!-- Container per le immagini dello slideshow -->
-    <div class="slideshow-container">
-
+    <!-- Slideshow delle immagini del prodotto -->
+    <div class="slideshow-container" *ngIf="product && product.photos && product.photos.length > 0">
       <!-- Immagini dello slideshow -->
-      <div class="slide" *ngFor="let photo of product?.photos; let i = index" [class.active]="i === currentImageIndex">
+      <div class="slide" *ngFor="let photo of product.photos; let i = index" [class.active]="i === currentImageIndex">
         <img [src]="photo" alt="Immagine prodotto">
       </div>
 
-       <!-- Pulsanti per immagine precedente e successiva -->
-        <div class="prev" (click)="previousImage()">&#10094;</div>
-        <div class="next" (click)="nextImage()">&#10095;</div>
-
+      <!-- Pulsanti per immagine precedente e successiva -->
+      <div class="prev" (click)="previousImage()">&#10094;</div>
+      <div class="next" (click)="nextImage()">&#10095;</div>
     </div>
-    
+
     <!-- Puntini per indicare le immagini -->
-    <div class="dots-container">
-      <span class="dot" *ngFor="let photo of product?.photos; let i = index" [class.active]="i === currentImageIndex" (click)="currentImageIndex = i" style="margin-left: 4px;"></span>
+    <div class="dots-container" *ngIf="product && product.photos && product.photos.length > 0">
+      <span class="dot" *ngFor="let photo of product.photos; let i = index" [class.active]="i === currentImageIndex"
+            (click)="currentImageIndex = i"></span>
     </div>
-    <div *ngIf="!product">
-      <p>Caricamento in corso...</p>
+
+    <div *ngIf="!product || !product.photos || product.photos.length === 0">
+      <p>Nessuna immagine disponibile.</p>
     </div>
-  
-   
-  </div>
-</div>
-    
-  <div>
-      <div style="text-align: end; margin-right: 16px;">
-        Questo prodotto è di "{{ product?.owner?.username }}"
-        
-        </div>
 
+    <div style="text-align: end; margin-right: 16px;">
+      Questo prodotto è di "{{ product?.owner?.username }}"
+    </div>
 
-        <div style="padding-bottom: 40px;">
-          <h4 style="text-align: left; padding-top: 16px;">{{ product?.description }}</h4>
-          <h4 style="text-align: left; margin-top: 16px;" *ngIf="getActionButtonLabel() === 'Segnala come assente' || getActionButtonLabel() === 'Segnala come presente'">
-            <strong>Disponibile </strong>
-            <span style="float: right;">{{ product?.available ? 'Sì' : 'No' }}</span>
-          </h4>
-          
-          <h4 style="text-align: left; margin-top: 16px;"><strong>Categoria </strong><span style="float: right;">{{ product?.category }}</span></h4>
-          <h4 style="text-align: left;"><strong>Condizioni </strong><span style="float: right;">{{ product?.productCondictions }}</span></h4>
-          <h4 *ngIf="product?.disposalCode" style="text-align: left;"><strong>Codice di smaltimento </strong><span style="float: right;">{{ product?.disposalCode }}</span></h4>
-        </div>
-        
-        
+    <div style="padding-bottom: 40px; margin-left: 16px; margin-right: 16px;">
+      <h4 style="text-align: left; padding-top: 16px;">{{ product?.description }}</h4>
+      
+      <h4 style="text-align: left; margin-top: 16px;" *ngIf="getActionButtonLabel() === 'Segnala come assente' || getActionButtonLabel() === 'Segnala come presente'">
+        <strong>Disponibile </strong>
+        <span style="float: right;">{{ product?.available ? 'Sì' : 'No' }}</span>
+      </h4>
+
+      <h4 style="text-align: left; margin-top: 16px;"><strong>Categoria </strong><span style="float: right;">{{ product?.category }}</span></h4>
+      <h4 style="text-align: left;"><strong>Condizioni </strong><span style="float: right;">{{ product?.productCondictions }}</span></h4>
+      <h4 *ngIf="product?.disposalCode" style="text-align: left;"><strong>Codice di smaltimento </strong><span style="float: right;">{{ product?.disposalCode }}</span></h4>
+    </div>
   </div>
 </div>
 

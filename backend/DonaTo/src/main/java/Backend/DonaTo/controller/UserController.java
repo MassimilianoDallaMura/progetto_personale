@@ -146,5 +146,11 @@ public class UserController {
         return userService.deleteUser(id);
     }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'NORMAL_USER')")
+    @GetMapping("/api/users/check-username")
+    public ResponseEntity<Boolean> checkUsername(@RequestParam String username) {
+        boolean isTaken = userService.isUsernameTaken(username);
+        return ResponseEntity.ok(isTaken);
+    }
 
 }

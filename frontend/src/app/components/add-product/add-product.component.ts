@@ -107,6 +107,7 @@ export class AddProductComponent implements OnInit {
       }
     );
   }
+
   
 
   // Function to handle image upload for a specific index
@@ -120,6 +121,7 @@ export class AddProductComponent implements OnInit {
     });
     fileInput.click();
   }
+
 
   // Function called when an image is selected for upload
   onProductImageSelected(event: any, index: number) {
@@ -135,7 +137,7 @@ export class AddProductComponent implements OnInit {
       reader.readAsDataURL(file);
 
       // Append selected file to FormData
-      this.formData.set('photos', file, file.name);
+      this.formData.append('photos', file, file.name);
     }
   }
 
@@ -201,6 +203,8 @@ onCompanyPropertyChanged() {
       console.error('Geolocation is not supported by this browser.');
     }
   }
+
+  
 
   // Geocode coordinates to get full address
   geocodeCoordinates(lat: number, lng: number): void {

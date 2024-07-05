@@ -48,7 +48,7 @@ export class AuthService {
       // Effettua il parsing del token JWT per recuperare l'ID utente (se necessario)
       const decodedToken = this.jwtHelper.decodeToken(token);
       const userId = decodedToken?.sub; // Supponendo che l'ID utente sia incluso come 'sub' nel token
-      
+      this.autoLogout
       const authData: AuthData = {
         accessToken: token,
         user: {
@@ -109,13 +109,13 @@ getUserData(userId: number): Observable<any> {
       }
 
         autoLogout(user: AuthData) {
-        const dateExpiration = this.jwtHelper.getTokenExpirationDate(
-          user.accessToken
-        ) as Date;
-        const millisecondsExp = dateExpiration.getTime() - new Date().getTime();
-        this.timeOut = setTimeout(() => {
-          this.logout();
-        }, millisecondsExp); //  devo chiamare in login e in restore
+        // const dateExpiration = this.jwtHelper.getTokenExpirationDate(
+        //   user.accessToken
+        // ) as Date;
+        // const millisecondsExp = dateExpiration.getTime() - new Date().getTime();
+        // this.timeOut = setTimeout(() => {
+        //   this.logout();
+        // }, millisecondsExp); //  devo chiamare in login e in restore
       }
 
         // Metodo per recuperare l'ID dell'utente loggato

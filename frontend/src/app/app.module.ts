@@ -47,6 +47,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ConfirmRequestComponent } from './components/confirm-request/confirm-request.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ContactConfirmModalComponent } from './components/contact-confirm-modal/contact-confirm-modal.component';
+import { LightboxModule } from 'ngx-lightbox';
+import { AuthGuard } from './auth/auth.guard';
+
+
 
 
 
@@ -59,24 +63,24 @@ import { ContactConfirmModalComponent } from './components/contact-confirm-modal
 const routes: Route[] = [
   /* { path: '', component: SpalshComponent }, */
   { path: '', redirectTo: '/splash', pathMatch: 'full' },
-  { path: 'home', component: HomeComponent },
-  { path: 'splash', component: SpalshComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: 'splash', component: SpalshComponent, },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: RegisterComponent },
-  { path: 'onboarding', component: OnboardingComponent },
-  { path: 'addProduct', component: AddProductComponent },
-  { path: 'favorite', component: FavoriteComponent },
-  { path: 'request', component: RequestComponent },
-  { path: 'profile', component: ProfileComponent },
-  { path: 'details/:id', component: DetailsComponent },
-  { path: 'profile_details', component: ProfileDetailsComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: 'notifications', component: NotificationsComponent },
-  { path: 'logout', component: LogoutComponent },
-  { path: 'confirmProduct', component: ConfirmProductComponent },
-  { path: 'map', component: MapComponent },
-  { path: 'chat/:id', component: ChatComponent },
-  { path: 'confirm-product/:id', component: ConfirmProductComponent },
+  { path: 'onboarding', component: OnboardingComponent, canActivate: [AuthGuard] },
+  { path: 'addProduct', component: AddProductComponent, canActivate: [AuthGuard] },
+  { path: 'favorite', component: FavoriteComponent, canActivate: [AuthGuard] },
+  { path: 'request', component: RequestComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: 'details/:id', component: DetailsComponent, canActivate: [AuthGuard] },
+  { path: 'profile_details', component: ProfileDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'notifications', component: NotificationsComponent, canActivate: [AuthGuard] },
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard] },
+  { path: 'confirmProduct', component: ConfirmProductComponent, canActivate: [AuthGuard] },
+  { path: 'map', component: MapComponent, canActivate: [AuthGuard] },
+  { path: 'chat/:id', component: ChatComponent, canActivate: [AuthGuard] },
+  { path: 'confirm-product/:id', component: ConfirmProductComponent, canActivate: [AuthGuard] },
 
 
   
@@ -145,6 +149,8 @@ const routes: Route[] = [
         MatGridListModule,
         MatExpansionModule,
         MatTabsModule,
+        LightboxModule
+
     ]
 })
 export class AppModule {}
