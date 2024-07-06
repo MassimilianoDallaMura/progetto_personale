@@ -1,20 +1,19 @@
 <div style="text-align: start; height: 1300px;">
 
-  <div>
-      <div style="position: fixed; width: 100%; top: 0; border-bottom: 1px solid rgb(147, 147, 147); margin-top: 48px; background-color: white;">
-        <mat-toolbar style="display: flex; justify-content: space-between; align-items: center; background-color: white;">
-          <div style="flex-grow: 1;">
-            <mat-icon (click)="close()">close</mat-icon>
-          </div>
-          <div style="text-align: center;">
-            <h1>Aggiungi prodotto</h1>
-          </div>
-          <div style="flex-grow: 1;">
-            <mat-icon>log</mat-icon>
-          </div>
-        </mat-toolbar>
-      </div>
-  </div>
+<!-- Barra di strumenti fissa -->
+<div style="position: fixed; width: 100%; top: 0; padding-top: 40px; border-bottom: 1px solid rgb(147, 147, 147); background-color: white; z-index: 1000;">
+  <mat-toolbar style="display: flex; justify-content: space-between; align-items: center; background-color: white;">
+    <div style="flex-grow: 1;">
+      <mat-icon (click)="close()">close</mat-icon>
+    </div>
+    <div style="text-align: center;">
+      <h1>Aggiungi prodotto</h1>
+    </div>
+    <div style="flex-grow: 1;">
+      <mat-icon>log</mat-icon>
+    </div>
+  </mat-toolbar>
+</div>
 
   <!-- Contenuto scrollabile -->
   <div style="padding-top: 30px; margin-top: 90px; margin-left: 16px; margin-right: 16px;">
@@ -27,32 +26,32 @@
         <input matInput type="text" name="title" required minlength="5" maxlength="20" [(ngModel)]="product.title">
       </mat-form-field>
 
-<!-- Caricamento delle immagini -->
-<h3><strong>Aggiungi foto</strong></h3>
-<div appearance="outline" style="border: 1px solid #848484; border-radius: 8px; padding: 10px;">
-  <div style="display: flex; align-items: center;">
-    <div style="width: 100px; height: 100px; border: 1px solid #CCCCCC; display: flex; align-items: center; justify-content: center; margin-right: 10px; position: relative;">
-      <img [src]="productImages[0].url || 'assets/default-product-image.png'" alt="Immagine Prodotto 1"
-           style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
-           (click)="uploadProductImage(0)">
-      <input type="file" style="display: none;" (change)="onProductImageSelected($event, 0)">
-    </div>
+    <!-- Caricamento delle immagini -->
+    <h3><strong>Aggiungi foto</strong></h3>
+    <div appearance="outline" style="border: 1px solid #848484; border-radius: 8px; padding: 10px;">
+      <div style="display: flex; align-items: center;">
+        <div style="width: 100px; height: 100px; border: 1px solid #CCCCCC; display: flex; align-items: center; justify-content: center; margin-right: 10px; position: relative;">
+          <img [src]="productImages[0].url || 'assets/default-product-image.png'" alt="Immagine Prodotto 1"
+              style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
+              (click)="uploadProductImage(0)">
+          <input type="file" style="display: none;" (change)="onProductImageSelected($event, 0)">
+        </div>
 
-    <div style="width: 100px; height: 100px; border: 1px solid #CCCCCC; display: flex; align-items: center; justify-content: center; margin-right: 10px; position: relative;">
-      <img [src]="productImages[1].url || 'assets/default-product-image.png'" alt="Immagine Prodotto 2"
-           style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
-           (click)="uploadProductImage(1)">
-      <input type="file" style="display: none;" (change)="onProductImageSelected($event, 1)">
-    </div>
+        <div style="width: 100px; height: 100px; border: 1px solid #CCCCCC; display: flex; align-items: center; justify-content: center; margin-right: 10px; position: relative;">
+          <img [src]="productImages[1].url || 'assets/default-product-image.png'" alt="Immagine Prodotto 2"
+              style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
+              (click)="uploadProductImage(1)">
+          <input type="file" style="display: none;" (change)="onProductImageSelected($event, 1)">
+        </div>
 
-    <div style="width: 100px; height: 100px; border: 1px solid #CCCCCC; display: flex; align-items: center; justify-content: center; position: relative;">
-      <img [src]="productImages[2].url || 'assets/default-product-image.png'" alt="Immagine Prodotto 3"
-           style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
-           (click)="uploadProductImage(2)">
-      <input type="file" style="display: none;" (change)="onProductImageSelected($event, 2)">
+        <div style="width: 100px; height: 100px; border: 1px solid #CCCCCC; display: flex; align-items: center; justify-content: center; position: relative;">
+          <img [src]="productImages[2].url || 'assets/default-product-image.png'" alt="Immagine Prodotto 3"
+              style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; cursor: pointer;"
+              (click)="uploadProductImage(2)">
+          <input type="file" style="display: none;" (change)="onProductImageSelected($event, 2)">
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
 
 

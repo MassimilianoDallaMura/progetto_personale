@@ -290,11 +290,15 @@ export class DetailsComponent implements OnInit {
     if (!this.product) {
       return '';
     }
-
+  
     const ownerId = this.product.owner ? this.product.owner.id : null;
     const userId = this.userId ? Number(this.userId) : null;
     const productOwned = this.product.owned;
-
+  
+    if (!this.product.available) { // Condizione per verificare se available è false
+      return 'Non disponibile';
+    }
+  
     if (ownerId !== null && userId !== null && productOwned) {
       if (ownerId === userId) {
         return 'Elimina';
@@ -302,8 +306,9 @@ export class DetailsComponent implements OnInit {
         return 'Contatta';
       }
     } else {
-      return this.product.available ? 'Segnala come assente' : 'Segnala come presente';
+      return 'Segnala come ' + (this.product.available ? 'assente' : 'presente');
     }
   }
+  
 
 }

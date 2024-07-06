@@ -151,6 +151,7 @@ public class ProductRequestService {
         Product product = productRequest.getProduct();
         product.setDonor(productRequest.getOwner());
         product.setAdopter(productRequest.getUser());
+        product.setAvailable(false);
         productRepository.save(product);
 
         rejectOtherRequests(productRequest.getProduct().getId(), productRequest.getId());

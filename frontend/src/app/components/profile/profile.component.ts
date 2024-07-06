@@ -72,7 +72,5 @@ export class ProfileComponent implements OnInit {
     this.router.navigate(['/settings']);
   }
 
-  handleNavigation(action: { icon: string, route: string }) {
-    this.router.navigate([action.route]);
-  }
+
 }

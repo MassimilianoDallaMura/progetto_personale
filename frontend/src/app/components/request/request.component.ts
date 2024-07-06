@@ -84,6 +84,21 @@ export class RequestComponent implements OnInit {
     }
   }
 
+getStatusText(status: string): string {
+  switch (status.toLowerCase()) {
+    case 'pending':
+      return 'IN ATTESA';
+    case 'accepted':
+      return 'ACCETTATA';
+    case 'rejected':
+      return 'RIFIUTATA';
+    default:
+      return 'Stato sconosciuto';
+  }
+}
+
+  
+
   viewChat(requestId: number, status: string): void {
     if (status.toLowerCase() === 'rejected') {
       console.log('Impossibile aprire la chat per richieste con stato "rejected".');

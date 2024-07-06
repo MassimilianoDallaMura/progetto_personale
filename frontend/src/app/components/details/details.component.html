@@ -17,7 +17,9 @@
 <div class="product-container" fxLayout="column" fxLayoutAlign="center center">
   <!-- Titolo e dettagli -->
   <div fxLayout="column" style="width: 100%; max-width: 600px;">
-    <mat-card-title style="text-align: left; margin-top: 100px; margin-left: 16px; margin-right: 16px;"><h1>{{ product?.title }}</h1></mat-card-title>
+    <mat-card-title style="text-align: left; margin-top: 100px; margin-left: 16px; margin-right: 16px;">
+      <h1>{{ product?.title }}</h1>
+    </mat-card-title>
     <p style="text-align: left; margin-left: 16px; margin-right: 16px;">📍 {{ product?.distance }}</p>
     <div fxLayout="row" fxLayoutAlign="space-between">
       <h4 style="color: #CF2BBE; cursor: pointer; margin-left: 16px;" (click)="openGoogleMaps(product?.latitude, product?.longitude)">
@@ -41,14 +43,15 @@
     <!-- Puntini per indicare le immagini -->
     <div class="dots-container" *ngIf="product && product.photos && product.photos.length > 0">
       <span class="dot" *ngFor="let photo of product.photos; let i = index" [class.active]="i === currentImageIndex"
-            (click)="currentImageIndex = i"></span>
+            (click)="setCurrentImageIndex(i)"></span>
     </div>
 
     <div *ngIf="!product || !product.photos || product.photos.length === 0">
       <p>Nessuna immagine disponibile.</p>
     </div>
 
-    <div style="text-align: end; margin-right: 16px;">
+    <!-- Questo prodotto è di -->
+    <div *ngIf="product?.owned && product?.owner?.id !== userId" style="text-align: end; margin-right: 16px;">
       Questo prodotto è di "{{ product?.owner?.username }}"
     </div>
 
@@ -69,7 +72,14 @@
 
 <!-- Pulsante fisso in fondo -->
 <div style="position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 1000;">
-  <button mat-raised-button type="button" style="width: 350px; background-color: #CF2BBE; color: white;" (click)="handleAction()">
+  <button 
+    mat-raised-button 
+    type="button" 
+    style="width: 350px; background-color: #CF2BBE; color: white;" 
+    (click)="handleAction()"
+    [disabled]="!product?.available">
     {{ getActionButtonLabel() }}
   </button>
 </div>
+
+

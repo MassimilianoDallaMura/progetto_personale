@@ -67,7 +67,7 @@ export class AddProductComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    // Aggiungi i dati del form al FormData
+    // Aggiunge i dati del form al FormData
     this.formData.append('title', this.product.title);
     this.formData.append('description', this.product.description);
     this.formData.append('category', this.product.category);
@@ -84,12 +84,12 @@ export class AddProductComponent implements OnInit {
     this.formData.append('toBeWithdrawn', this.product.toBeWithdrawn ? 'true' : 'false');
     this.formData.append('companyProperty', this.product.companyProperty ? 'true' : 'false');
     
-    // Aggiungi disposalCode solo se è stato inserito dall'utente e companyProperty è true
+    // Aggiunge disposalCode solo se è stato inserito dall'utente e companyProperty è true
     if (this.product.companyProperty && this.disposalCode.trim() !== '') {
       this.formData.append('disposalCode', this.disposalCode);
     }
   
-    // Aggiungi i file selezionati al FormData
+    // Aggiunge i file selezionati al FormData
     this.selectedFiles.forEach((file, index) => {
       this.formData.append(`photos[${index}]`, file, file.name);
     });
@@ -103,14 +103,14 @@ export class AddProductComponent implements OnInit {
       },
       (error) => {
         console.error('Errore durante l\'aggiunta del prodotto:', error);
-        // Gestisci gli errori, mostra un messaggio all'utente, ecc.
+        // Gestisce gli errori, mostra un messaggio all'utente, ecc.
       }
     );
   }
 
   
 
-  // Function to handle image upload for a specific index
+  // Funzione per caricare immagine
   uploadProductImage(index: number) {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
@@ -123,20 +123,20 @@ export class AddProductComponent implements OnInit {
   }
 
 
-  // Function called when an image is selected for upload
+  // Viene chiamata quando una immagine è pronta per il caric.
   onProductImageSelected(event: any, index: number) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.selectedFiles[index] = file;
 
-      // Update productImages for image preview
+      // carica l'immagine per l'anteprima
       const reader = new FileReader();
       reader.onload = () => {
         this.productImages[index].url = reader.result as string;
       };
       reader.readAsDataURL(file);
 
-      // Append selected file to FormData
+      // Appende il file al formdata
       this.formData.append('photos', file, file.name);
     }
   }
@@ -174,17 +174,17 @@ onCompanyPropertyChanged() {
 
 
 
-  // Handle change in the "toBeWithdrawn" property
+  // Handle cambia nella proprietà "toBeWithdrawn" 
   onToBeWithdrawnChange(value: boolean) {
     this.product.toBeWithdrawn = value;
   }
 
-  // Close the component and navigate to the home page
+  
   close() {
     this.router.navigate(['/home']);
   }
 
-  // Use geocoding service to get address from latitude and longitude
+  // geocod service per estrarre coordinate
   locateUser(): void {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -206,7 +206,7 @@ onCompanyPropertyChanged() {
 
   
 
-  // Geocode coordinates to get full address
+  // Geocode coord. per l'indirizzo intero
   geocodeCoordinates(lat: number, lng: number): void {
     this.geocodingService.geocodeLatLng(lat, lng)
       .then(({ fullAddress, addressComponents }) => {
@@ -220,7 +220,7 @@ onCompanyPropertyChanged() {
       });
   }
 
-  // Extract city name from geocoded address components
+  // Estrae il nome della città dal geocoded address components
   extractCityFromComponents(addressComponents: google.maps.GeocoderAddressComponent[]): string {
     for (let component of addressComponents) {
       if (component.types.includes('locality')) {

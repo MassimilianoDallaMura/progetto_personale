@@ -106,8 +106,6 @@
 
 
 
-
-
 .delete-indicator {
   position: absolute;
   top: 0;
@@ -122,4 +120,33 @@
   font-size: 16px;
   font-weight: bold;
   z-index: 1; /* Assicura che sia sopra la card */
+}
+
+
+.unavailable-product {
+  background-color: #f8d7da; /* Colore di sfondo per prodotti non disponibili */
+  opacity: 0.6; /* Riduce l'opacità per evidenziare che il prodotto non è disponibile */
+  transition: opacity 0.3s ease-in-out; /* Effetto di transizione per l'opacità */
+  position: relative; /* Necessario per posizionare il testo "non disponibile" */
+}
+
+.unavailable-product:hover {
+  opacity: 1; /* Ripristina l'opacità completa quando si passa il mouse sopra */
+  cursor: not-allowed; /* Cambia il cursore per indicare che l'azione non è permessa */
+}
+
+.unavailable-product::after {
+  content: "Non disponibile";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  font-weight: bold;
+  color: rgba(255, 0, 0, 0.8); /* Colore del testo */
+  background-color: rgba(255, 255, 255, 0.63); /* Sfondo semitrasparente per migliorare la leggibilità */
+  padding: 5px 10px; /* Spaziatura attorno al testo */
+  border-radius: 5px; /* Angoli arrotondati */
+  z-index: 1; /* Assicura che il testo sia sopra altri elementi */
+  pointer-events: none; /* Assicura che il testo non interferisca con l'hover */
 }
