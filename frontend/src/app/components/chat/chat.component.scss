@@ -20,7 +20,6 @@
 .compose-message-container {
   background-color: #CF2BBE;
   padding: 10px;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
 }
 
 .compose-message {
@@ -29,8 +28,8 @@
 }
 
 .compose-message textarea {
-  width: calc(100% - 80px); /* Adjust width according to your needs */
-  height: 40px; /* Adjust height according to your needs */
+  width: calc(100% - 80px); 
+  height: 40px; 
   resize: none;
 }
 
@@ -41,12 +40,12 @@
 .chat-header {
 
   padding: 10px;
-  color: black; /* Assuming you want the text to be white */
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+
+
 }
 
 .mat-raised-button {
-  border-radius: 4px; /* Optional: adds rounded corners to buttons */
+  border-radius: 4px;
 }
 
 .disabled-button {
@@ -72,13 +71,12 @@
   background-color: white;
   padding: 20px;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
   max-width: 80%; /* Larghezza massima della modale */
   text-align: center; /* Testo centrato */
 }
 
 .custom-colored-button {
-  background-color: #CF2BBE !important; /* Assicurati di usare !important per sovrascrivere altri stili */
+  background-color: #CF2BBE !important; /* !important per sovrascrivere altri stili */
   color: white !important; /* Testo bianco */
 
   border: none !important; /* Nessun bordo */

@@ -84,20 +84,19 @@ export class RequestComponent implements OnInit {
     }
   }
 
-getStatusText(status: string): string {
-  switch (status.toLowerCase()) {
-    case 'pending':
-      return 'IN ATTESA';
-    case 'accepted':
-      return 'ACCETTATA';
-    case 'rejected':
-      return 'RIFIUTATA';
-    default:
-      return 'Stato sconosciuto';
+  getStatusText(status: string): string {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return 'IN ATTESA';
+      case 'approved':
+        return 'ACCETTATA';
+      case 'rejected':
+        return 'RIFIUTATA';
+      default:
+        console.warn(`Stato sconosciuto: ${status}`);
+        return 'Stato sconosciuto';
+    }
   }
-}
-
-  
 
   viewChat(requestId: number, status: string): void {
     if (status.toLowerCase() === 'rejected') {
@@ -119,46 +118,13 @@ getStatusText(status: string): string {
 
   onTouchMove(event: TouchEvent) {
     this.touchCurrentX = event.touches[0].clientX;
-    const deltaX = this.touchCurrentX - this.touchStartX;
-
-    if (Math.abs(deltaX) > 10) {
-      this.isDragging = true;
-    }
-
-    if (deltaX < 0 && this.isDragging) {
-      const container = (event.currentTarget as HTMLElement).closest('.request-card-container') as HTMLElement;
-      const card = container.querySelector('.request-card') as HTMLElement;
-      card.style.transform = `translateX(${deltaX}px)`;
-      container.style.backgroundColor = `rgba(255, 0, 0, ${Math.min(Math.abs(deltaX) / 300, 1)})`;
-    }
+    const touchDeltaX = this.touchCurrentX - this.touchStartX;
+    this.isDragging = Math.abs(touchDeltaX) > 10;
   }
 
   onTouchEnd(event: TouchEvent, request: any) {
-    const deltaX = this.touchCurrentX - this.touchStartX;
-
-    if (this.isDragging && deltaX < -100) {
-      this.deleteRequest(request);
-    } else {
-      const container = (event.currentTarget as HTMLElement).closest('.request-card-container') as HTMLElement;
-      const card = container.querySelector('.request-card') as HTMLElement;
-      card.style.transform = 'translateX(0)';
-      container.style.backgroundColor = 'transparent';
+    if (!this.isDragging) {
+      this.viewChat(request.id, request.statusRequest);
     }
-
-    this.touchStartX = 0;
-    this.touchCurrentX = 0;
-    this.isDragging = false;
-  }
-
-  deleteRequest(request: any) {
-    this.userRequests = this.userRequests.filter(r => r.id !== request.id);
-    this.requestService.deleteRequest(request.id).subscribe(
-      response => {
-        console.log('Request deleted:', response);
-      },
-      error => {
-        console.error('Error deleting request:', error);
-      }
-    );
   }
 }

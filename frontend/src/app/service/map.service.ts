@@ -16,7 +16,7 @@ export class MapService {
     });
   }
 
-  addMarker(lat: number, lng: number, title: string, content: string): void {
+  addMarker(lat: number, lng: number, title: string, content: string, productId: number): void {
     if (!this.map) {
       console.error('Mappa non inizializzata correttamente.');
       return;
@@ -34,6 +34,14 @@ export class MapService {
 
     marker.addListener('click', () => {
       infowindow.open(this.map!, marker);
+    });
+
+    const contentElement = document.createElement('div');
+    contentElement.innerHTML = content;
+    contentElement.addEventListener('click', () => {
+      // Naviga ai dettagli del prodotto
+      const routerLink = `/details/${productId}`;
+      window.location.href = routerLink;
     });
 
     this.markers.push(marker);

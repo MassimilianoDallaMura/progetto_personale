@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
             <img src="${product.photos}" style="max-width: 100px; height: auto;">
           </div>
         `;
-        this.mapService.addMarker(latitude, longitude, product.title, markerContent);
+        this.mapService.addMarker(latitude, longitude, product.title, markerContent, product.id);
       }
     });
   }

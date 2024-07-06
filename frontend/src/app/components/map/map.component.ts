@@ -43,7 +43,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
   private updateMarkers(): void {
     if (this.mapService) {
-      this.mapService.clearMarkers(); // Rimuove tutti i marker precedenti
+      this.mapService.clearMarkers();
       this.products.forEach(product => {
         const latitude = Number(product.latitude);
         const longitude = Number(product.longitude);
@@ -51,13 +51,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
           const title = product.title;
           const content = document.createElement('div');
           content.style.cursor = 'pointer';
+          content.id = `product-${product.id}`;
           content.innerHTML = `
             <h4>${product.title}</h4>
             <p>${product.description}</p>
           `;
-          content.addEventListener('click', () => this.viewProductDetails(product.id));
-          // Converto content.outerHTML in stringa per passarlo come contenuto del marker
-          this.mapService.addMarker(latitude, longitude, title, content.outerHTML);
+          this.mapService.addMarker(latitude, longitude, title, content.outerHTML, product.id);
         }
       });
     }
@@ -75,7 +74,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           };
-          console.log('UpdateMapCenter - Center:', this.center);
           this.updateMapCenter();
         },
         (error) => {
