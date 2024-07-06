@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, AfterViewInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Router } from '@angular/router';
 import { Product } from 'src/app/interface/product.interface';
 import { MapService } from 'src/app/service/map.service';
 
@@ -12,7 +13,10 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() zoom: number = 12;
   @Input() products: Product[] = [];
 
-  constructor(private mapService: MapService) {}
+  constructor(
+    private router: Router,
+    private mapService: MapService
+  ) {}
 
   ngOnInit(): void {
     this.initializeMap();
@@ -39,30 +43,29 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
 
   private updateMarkers(): void {
     if (this.mapService) {
-      this.mapService.clearMarkers(); // Rimuovi tutti i marker precedenti
+      this.mapService.clearMarkers(); // Rimuove tutti i marker precedenti
       this.products.forEach(product => {
         const latitude = Number(product.latitude);
         const longitude = Number(product.longitude);
         if (!isNaN(latitude) && !isNaN(longitude)) {
           const title = product.title;
-          const content = `
-            <div>
-              <h4>${product.title}</h4>
-              <p>${product.description}</p>
-            </div>
+          const content = document.createElement('div');
+          content.style.cursor = 'pointer';
+          content.innerHTML = `
+            <h4>${product.title}</h4>
+            <p>${product.description}</p>
           `;
-          this.mapService.addMarker(latitude, longitude, title, content);
+          content.addEventListener('click', () => this.viewProductDetails(product.id));
+          // Converto content.outerHTML in stringa per passarlo come contenuto del marker
+          this.mapService.addMarker(latitude, longitude, title, content.outerHTML);
         }
       });
     }
   }
-  
-  
 
   private updateMapCenter(): void {
     this.mapService.setCenter(this.center.lat, this.center.lng);
   }
-
 
   locateUser(): void {
     if (navigator.geolocation) {
@@ -73,7 +76,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
             lng: position.coords.longitude
           };
           console.log('UpdateMapCenter - Center:', this.center);
-          this.updateMapCenter(); // Assicurati di chiamare questa funzione dopo aver aggiornato this.center
+          this.updateMapCenter();
         },
         (error) => {
           console.error('Error getting user location:', error);
@@ -82,5 +85,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnChanges {
     } else {
       console.error('Geolocation is not supported by this browser.');
     }
+  }
+
+  viewProductDetails(productId: number): void {
+    this.router.navigate(['/details', productId]);
   }
 }

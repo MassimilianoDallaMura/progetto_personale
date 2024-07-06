@@ -32,8 +32,6 @@
 
 .search-form {
   position: fixed;
-  top: 70px; /* Altezza del container header */
-  left: 50%;
   transform: translateX(-50%);
   background-color: white; /* Sfondo bianco per evidenziare i componenti */
   z-index: 100; /* Assicura che sia sopra la mappa */

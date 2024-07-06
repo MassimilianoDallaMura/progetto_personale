@@ -8,12 +8,25 @@
         <h4><strong style="color: #CF2BBE; cursor: pointer;">Cambia città</strong></h4>
       </div>
 
-      <form style="padding: 0 16px; display: flex; align-items: center; justify-content: center;">
-        <mat-form-field appearance="outline" style="width: 350px;">
-          <mat-label>Cerca prodotti</mat-label>
-          <input matInput type="text" name="searchQuery" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()">
-        </mat-form-field>
-      </form>
+      <div style="display: flex; align-items: center; justify-content: center; width: 100%; max-width: 350px; margin: 0 auto;">
+        <form style="display: flex; align-items: center; flex-grow: 1;">
+          <mat-form-field appearance="outline" style="width: 200px;">
+            <mat-label>Cerca prodotti</mat-label>
+            <input matInput type="text" name="searchQuery" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange()">
+          </mat-form-field>
+        </form>
+        <button mat-icon-button (click)="toggleCategoryMenu()" style="background-color: #CF2BBE; color: white; border-radius: 8px; margin-left: 8px;">
+          <mat-icon>filter_list</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="showCategoryMenu" class="category-menu">
+      <mat-selection-list [(ngModel)]="selectedCategories" (ngModelChange)="filterProducts()">
+        <mat-list-option *ngFor="let category of categories" [value]="category">
+          {{ category }}
+        </mat-list-option>
+      </mat-selection-list>
     </div>
 
     <button mat-raised-button style="background-color: #CF2BBE; border-radius: 8px; color: white; position: fixed; top: 720px; right: 100px; z-index: 1000;" (click)="toggleView()">
@@ -23,7 +36,7 @@
 
   <div *ngIf="!isMapView; else mapView" class="product-grid">
     <div *ngFor="let product of filteredProducts">
-      <mat-card class="custom-card" [ngClass]="{ 'unavailable-product': !product.available }" style="margin-top: 15px; background-color: transparent; position: relative;">
+      <mat-card class="custom-card" [ngClass]="{ 'unavailable-product': !product.available }" style="margin-top: 30px; background-color: transparent; position: relative;">
         <div fxLayout="row" fxLayoutAlign="space-between start">
           <div fxLayout="column" fxLayoutAlign="start start" style="flex-grow: 1;">
             <mat-card-title style="text-align: left; font-size: 18px; margin-bottom: 8px;"><strong>{{ product.title }}</strong></mat-card-title>

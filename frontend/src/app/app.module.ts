@@ -49,6 +49,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { ContactConfirmModalComponent } from './components/contact-confirm-modal/contact-confirm-modal.component';
 import { LightboxModule } from 'ngx-lightbox';
 import { AuthGuard } from './auth/auth.guard';
+import { MatListModule } from '@angular/material/list'; // Importa il modulo MatListModule
 
 
 
@@ -149,7 +150,8 @@ const routes: Route[] = [
         MatGridListModule,
         MatExpansionModule,
         MatTabsModule,
-        LightboxModule
+        LightboxModule,
+        MatListModule
 
     ]
 })

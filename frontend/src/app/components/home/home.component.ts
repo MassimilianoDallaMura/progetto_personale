@@ -25,6 +25,9 @@ export class HomeComponent implements OnInit {
   favoriteProducts: Product[] = [];
   searchQuery: string = '';
   private searchSubject: Subject<string> = new Subject<string>();
+  categories: string[] = [];
+  selectedCategories: string[] = [];
+  showCategoryMenu: boolean = false;
 
   constructor(
     private router: Router,
@@ -48,11 +51,24 @@ export class HomeComponent implements OnInit {
     this.updateFavoriteStatus();
 
     this.searchSubject.pipe(
-      debounceTime(300),      // per ridurre il numero di chiamate alla funzione di ricerca.
-      distinctUntilChanged()  //  per ridurre il numero di chiamate alla funzione di ricerca.
+      debounceTime(300),
+      distinctUntilChanged()
     ).subscribe(query => {
-      this.filteredProducts = this.filterProducts(query);
+      this.filterProducts();
     });
+
+    this.loadCategories();
+  }
+
+  loadCategories() {
+    this.productService.getCategories().subscribe(
+      (categories: string[]) => {
+        this.categories = categories;
+      },
+      (error) => {
+        console.error('Error fetching categories:', error);
+      }
+    );
   }
 
   loadProductsByCity(city: string) {
@@ -115,15 +131,22 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/details', productId]);
   }
 
-  onSearchChange(): void {
-    this.searchSubject.next(this.searchQuery);
+
+  filterProducts(): void {
+    this.filteredProducts = this.products.filter(product =>
+      product.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+      product.category.toLowerCase().includes(this.searchQuery.toLowerCase())
+    );
+
+    if (this.selectedCategories.length > 0) {
+      this.filteredProducts = this.filteredProducts.filter(product =>
+        this.selectedCategories.includes(product.category)
+      );
+    }
   }
 
-  filterProducts(query: string): Product[] {
-    return this.products.filter(product =>
-      product.title.toLowerCase().includes(query.toLowerCase()) ||
-      product.category.toLowerCase().includes(query.toLowerCase())
-    );
+  onSearchChange(): void {
+    this.searchSubject.next(this.searchQuery);
   }
 
   addToFavorites(product: Product) {
@@ -172,5 +195,13 @@ export class HomeComponent implements OnInit {
       this.products.splice(index, 1);
       localStorage.setItem('products', JSON.stringify(this.products));
     }
+  }
+
+  toggleCategoryMenu() {
+    this.showCategoryMenu = !this.showCategoryMenu;
+  }
+
+  filterProductsByCategory(): void {
+    this.filterProducts();
   }
 }
